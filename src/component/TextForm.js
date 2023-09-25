@@ -37,6 +37,7 @@ export default function TextForm(props) {
     var text = document.getElementById("myBox");
     text.select();
     navigator.clipboard.writeText(text.value);
+    document.getSelection().removeAllRanges();
     props.showAlert("Text Copied","success");
 
   }
@@ -60,26 +61,26 @@ export default function TextForm(props) {
           style={{backgroundColor: props.mode ==='dark'? '#343a40':'white',color: props.mode ==='dark'? 'white':'black'}}
         ></textarea>
       </div>
-      <button className="btn btn-primary mx-2" onClick={handleUpClick} >
+      <button disabled={text.length===0} className="btn btn-primary mx-2 my-2" onClick={handleUpClick} >
         Convert To UpperCase
       </button>
-      <button className="btn btn-primary mx-2" onClick={handleDownClick}>
+      <button disabled={text.length===0} className="btn btn-primary mx-2 my-2" onClick={handleDownClick}>
         Convert To LowerCase
       </button>
-      <button className="btn btn-primary mx-2" onClick={handleClearClick}>
+      <button disabled={text.length===0} className="btn btn-primary mx-2 my-2" onClick={handleClearClick}>
         clear
       </button>
-      <button className="btn btn-primary mx-2" onClick={colorClick}>
+      <button disabled={text.length===0} className="btn btn-primary mx-2 my-2" onClick={colorClick}>
         change color
       </button>
-      <button className="btn btn-primary mx-2" onClick={handleCopy}>
+      <button disabled={text.length===0} className="btn btn-primary mx-2 my-2" onClick={handleCopy}>
         copy text
       </button>
     </div>
     <div className="container my-2" style={{color: props.mode ==='dark'? 'white':'black'}}>
       <h2>Your Text Summary</h2>
-      <p>{text.length===0?0:text.split(" ").length} words and {text.length} characters</p>
-      <p>{0.008 * text.split(" ").length} minutes to read</p>
+      <p>{text.split(" ").filter((element)=>{return element.length!==0}).length} words and {text.length} characters</p>
+      <p>{0.008 * text.split(" ").filter((element)=>{return element.length!==0}).length} minutes to read</p>
     </div>
     </>
   )
